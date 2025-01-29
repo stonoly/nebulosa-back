@@ -1,0 +1,19 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+
+# Environnement virtuel
+venv/
+__pycache__/
+*.pyc
+
+# Fichiers sensibles
+.env*
+
+# Fichiers temporaires
+*.log
+
+# Fichier Mac
+._*

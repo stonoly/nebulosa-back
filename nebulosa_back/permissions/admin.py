@@ -1,5 +1,5 @@
-from rest_framework.permissions import BasePermission
+from .authenticated import IsAuthenticated
 
-class IsAdminUser(BasePermission):
+class IsAdminUser(IsAuthenticated):
     def has_permission(self, request, view):
-        return request.user and request.user.is_authenticated and request.user.is_superuser
+        return super().has_permission(request, view) and request.user.is_superuser

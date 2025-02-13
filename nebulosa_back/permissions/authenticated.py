@@ -1,7 +1,6 @@
 from rest_framework.permissions import BasePermission
+from django.contrib.auth.models import User
 
-class IsAuthenticatedOrReadOnly(BasePermission):
+class IsAuthenticated(BasePermission):
     def has_permission(self, request, view):
-        if request.method in ['GET', 'HEAD', 'OPTIONS']:
-            return True
-        return request.user and request.user.is_authenticated
+        return isinstance(request.user, User) and request.user.is_authenticated

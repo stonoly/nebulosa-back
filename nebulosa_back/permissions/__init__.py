@@ -1,9 +1,9 @@
 from .admin import IsAdminUser
-from .user import IsOwnerOrReadOnly
-from .authenticated import IsAuthenticatedOrReadOnly
+from .owner import IsOwnerUser
+from .authenticated import IsAuthenticated
 
 __all__ = [
     'IsAdminUser',
-    'IsOwnerOrReadOnly',
-    'IsAuthenticatedOrReadOnly',
+    'IsOwnerUser',
+    'IsAuthenticated',
 ]

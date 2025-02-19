@@ -1,14 +1,8 @@
-from rest_framework import generics
+from rest_framework import viewsets
 from .models import UserProfile
 from .serializers import UserProfileSerializer
 from nebulosa_back.permissions import IsOwnerUser, IsAuthenticated
 
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework import status
-from django.shortcuts import get_object_or_404
-from .models import UserProfile
-from .serializers import UserProfileSerializer
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """
@@ -16,8 +10,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     - list (GET)
     - retrieve (GET with ID)
     - create (POST)
-    - update (PUT / PATCH)
-    - destroy (DELETE)
     """
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer

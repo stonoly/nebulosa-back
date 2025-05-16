@@ -21,7 +21,8 @@ Nebulosa est une application mobile communautaire où les utilisateurs partagent
 └────────────┘                          │  Python 3.11  │
                     │                   │   Apps:       │
                     ▼                   │   • users     │
-                 PostgreSQL 15 ◄────────┤   • places    │
+                 PostgreSQL 15 ◄────────┤   • places    │
+                                        │   • tags      │
                      (docker)           └───────────────┘
 ```
 
@@ -38,13 +39,14 @@ Nebulosa est une application mobile communautaire où les utilisateurs partagent
 | --------- | ----------------------------- | -------------------------------- |
 | language  | Python                        | 3.11‑slim (Docker)               |
 | framework | Django                        | 5.1.5                            |
-| API       | Django REST Framework         | 3.15.2                           |
-| Auth      | djangorestframework‑simplejwt | 5.4.0 (access 24 h, refresh 7 j) |
-| DB        | PostgreSQL                    | 15 (image officielle)            |
-| Container | Docker Compose                | v3.8                             |
-| Tests     | Django test runner            | (pytest plus tard possible)      |
-| Env vars  | python‑dotenv                 | `.env.dev`, etc.                 |
-| Misc      | asgiref 3.8.1, sqlparse 0.5.3 |                                  |
+| API       | Django REST Framework         | 3.15.2                           |
+| Auth      | djangorestframework‑simplejwt | 5.4.0 (access 24 h, refresh 7 j) |
+| DB        | PostgreSQL                    | 15 (image officielle)            |
+| Container | Docker Compose                | v3.8                             |
+| Tests     | Django test runner            | (pytest plus tard possible)      |
+| Env vars  | python‑dotenv                 | `.env.dev`, etc.                 |
+| Misc      | asgiref 3.8.1, sqlparse 0.5.3 |                                  |
+| NLP       | spaCy                         | fr_core_news_md pour la recherche sémantique |
 
 ---
 
@@ -83,7 +85,13 @@ nebulosa-back/
 │  ├─ services.py
 │  ├─ signals.py
 │  └─ urls.py
-├─ nebulosa_back/    # config Django
+├─ tags/             # app Django pour les tags
+│  ├─ models.py
+│  ├─ serializers.py
+│  ├─ services.py
+│  ├─ views.py
+│  └─ urls.py
+├─ nebulosa_back/    # config Django
 │  ├─ settings/
 │  │   ├─ base.py
 │  │   ├─ dev.py
@@ -125,6 +133,19 @@ nebulosa-back/
 | ------ | ------------------ | ---------- | --------------------------------- |
 | POST   | `/api/users/`      | Public     | Inscription : User + UserProfile. |
 | GET    | `/api/users/{id}/` | IsOwner    | Récupère son profil.              |
+
+### 6.3 tags
+
+| Model           | Champs clés                                                          | Description                 |
+| --------------- | -------------------------------------------------------------------- | --------------------------- |
+| **Tag**         | name, creator, created_at, updated_at                              | Tag générique.              |
+| **PlaceTag**    | tag, place, description, grade, creator, created_at, updated_at    | Association tag-lieu.       |
+
+#### Endpoints
+
+| Method | URL                          | Permission | Notes                                |
+| ------ | ---------------------------- | ---------- | ------------------------------------ |
+| POST   | `/api/tags/search_similar/`  | Auth       | Recherche sémantique de tags similaires. |
 
 ---
 
